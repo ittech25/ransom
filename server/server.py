@@ -25,7 +25,7 @@ def Main():
 				break
 			file.write(data)
 		print("from connected user: " + filename)
-		myfile = open(filename, "rb")
+		file.close()
 		c.close()
 
 if __name__ == '__main__':
